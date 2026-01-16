@@ -6,6 +6,7 @@ import com.javastart.library.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,22 +15,32 @@ public class AuthorService {
 
     private final AuthorRepository authorRepository;
 
-    public Author save(Author author){
-        return authorRepository.save(author);
-    }
+    public AuthorDTO save(AuthorDTO dto){
+        Author author = new Author();
+        author.setName(dto.getName());
 
-    public List<Author> findAll(){
-        return authorRepository.findAll();
-    }
-
-    public AuthorDTO createAuthor(Author author){
         Author savedAuthor = authorRepository.save(author);
 
-        AuthorDTO dto = new AuthorDTO();
-        dto.setId(savedAuthor.getId());
-        dto.setName(savedAuthor.getName());
+        AuthorDTO responseDto = new AuthorDTO();
+        responseDto.setId(savedAuthor.getId());
+        responseDto.setName(savedAuthor.getName());
 
-        return dto;
+        return responseDto;
+    }
+
+    public List<AuthorDTO> findAll(){
+        List<Author> authors = authorRepository.findAll();
+
+        List<AuthorDTO> dtos = new ArrayList<>();
+
+        for (Author author : authors){
+            AuthorDTO dto = new AuthorDTO();
+            dto.setId(author.getId());
+            dto.setName(author.getName());
+
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
 }

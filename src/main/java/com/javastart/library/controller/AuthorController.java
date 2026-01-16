@@ -1,5 +1,6 @@
 package com.javastart.library.controller;
 
+import com.javastart.library.DTO.AuthorDTO;
 import com.javastart.library.entity.Author;
 import com.javastart.library.service.AuthorService;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,12 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @PostMapping
-    public Author create(@RequestBody Author author){
-        return authorService.save(author);
+    public AuthorDTO create(@RequestBody AuthorDTO dto){
+        return authorService.save(dto);
     }
 
     @GetMapping
-    public List<Author> getAll(){
+    public List<AuthorDTO> getAll(){
         return authorService.findAll();
     }
 }
